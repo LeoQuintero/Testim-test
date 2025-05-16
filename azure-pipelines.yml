@@ -1,0 +1,25 @@
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: 'lts'
+    # You can also change 'lts' to any supported LTS Node.js version.
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @testim/testim-cli
+    testim \
+    --token "DSVLWsAcy7AolmeUawJSFSoL6fYDjSXiuxKUXDnGJzOpOJuvz5" \
+    --project "287MAutbkiG2k8Xd326z" \
+    --grid "Testim-Grid" \
+    --mode "selenium" \
+    --branch "master" \
+    --label "Web " \
+    --test-config "FHD 1920x1080" \
+    --report-file testim-tests-report.xml
+  displayName: 'npm install testim-cli and run tests'
+
+- task: PublishTestResults@2
+  displayName: 'publish testim test results'
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/testim-tests-report.xml'
